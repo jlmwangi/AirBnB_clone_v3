@@ -14,6 +14,7 @@ def tear_down(error=None):
     except Exception as e:
         print(f"{e}")
 
+
 if __name__ == "__main__":
     import os
     hbnb_api_host = os.getenv('HBNB_API_HOST', '0.0.0.0')

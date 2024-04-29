@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""defines and initializes flask app"""
 
 from flask import Flask
 from models import storage

@@ -92,7 +92,7 @@ class FileStorage:
 
         if cls is None:
             for class_ in classes_:
-                num_of_objs += len(models.storage.all(classes_).values())
+                num_of_objs += len(models.storage.all(class_).values())
         else:
             num_of_objs = len(models.storage.all(cls).values())
 

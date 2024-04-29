@@ -7,9 +7,12 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def tear_down():
+def tear_down(error=None):
     """calls the storage.close method"""
-    storage.close()
+    try:
+        storage.close()
+    except Exception as e:
+        printf(f"{e}")
 
 if __name__ == "__main__":
     import os

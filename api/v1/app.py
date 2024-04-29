@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """defines and initializes flask app"""
 
+from api.v1.views import app_views
 from flask import Flask
 from models import storage
-from api.v1.views import app_views
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -15,7 +15,7 @@ def tear_down(error=None):
     try:
         storage.close()
     except Exception as e:
-        print(f"{e}")
+        print("{}".format(ei))
 
 
 if __name__ == "__main__":

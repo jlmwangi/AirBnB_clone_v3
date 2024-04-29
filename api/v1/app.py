@@ -12,7 +12,7 @@ def tear_down(error=None):
     try:
         storage.close()
     except Exception as e:
-        printf(f"{e}")
+        print(f"{e}")
 
 if __name__ == "__main__":
     import os

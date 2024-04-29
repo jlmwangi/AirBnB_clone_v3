@@ -2,7 +2,7 @@
 """defines and initializes flask app"""
 
 from api.v1.views import app_views
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 
 app = Flask(__name__)
@@ -16,6 +16,14 @@ def tear_down(error=None):
         storage.close()
     except Exception as e:
         print("{}".format(ei))
+
+
+@app.errorhandler(404)
+def error_handler(e):
+    """a handler for 404 errors"""
+    response = jsonify({"error": "Not found"})
+    response.status_code = 404
+    return response
 
 
 if __name__ == "__main__":

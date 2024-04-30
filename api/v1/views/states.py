@@ -2,7 +2,7 @@
 """handles all default restful api actions"""
 
 from api.v1.views import app_views
-from flask import jsonify, abort, request
+from flask import jsonify, abort, make_response, request
 from models import storage
 from models.state import State
 
@@ -30,12 +30,12 @@ def delete_state(state_id):
     """deletes a state object returning an empty dictionary"""
     state = storage.get(State, state_id)
 
-    if state:
-        state.delete(state)
-        storage.save()
+    if not state:
+        abort(404)
 
-        return jsonify({}), 200
-    abort(404)
+    state.delete()
+    storage.save()
+    return jsonify({})
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -43,15 +43,15 @@ def create_state():
     """creates a state using request.get_json"""
     body = request.get_json()
     if body is None:
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
 
     if'name' not in body:
-        abort(400, "Missing name")
+        abort(400, description="Missing name")
 
     new_state = State(**body)
     new_state.save()
 
-    return jsonify(new_state.to_dict()), 201
+    return make_response(jsonify(new_state.to_dict()), 201)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes='False')
@@ -64,7 +64,7 @@ def update_state(state_id):
 
     body = request.get_json()
     if body is None:
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
 
     for key, value in body.items():
         if key not in ['id', 'created_at', 'updated_at']:
@@ -72,4 +72,4 @@ def update_state(state_id):
 
     storage.save()
 
-    return jsonify(state.to_dict())
+    return make_response(jsonify(state.to_dict()), 200)

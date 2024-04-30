@@ -46,10 +46,13 @@ def retrieve_city(city_id):
 def delete_city(city_id):
     """ deletes a city object"""
 
-    city = storage.delete(City, city_id)
+    city = storage.get(City, city_id)
 
     if not city:
         abort(404)
+
+    storage.delete(city)
+    storage.save()
 
     return jsonify({}), 200
 

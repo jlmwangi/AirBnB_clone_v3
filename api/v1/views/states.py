@@ -49,6 +49,7 @@ def create_state():
         abort(400, "Missing name")
 
     new_state = State(**body)
+    new_state.save()
 
     return jsonify(new_state.to_dict()), 201
 

@@ -5,7 +5,7 @@ that handles all default RESTFul API actions
 """
 
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import abort, jsonify, make_response, request
 from models import storage
 from models.city import City
 from models.state import State
@@ -54,7 +54,7 @@ def delete_city(city_id):
     storage.delete(city)
     storage.save()
 
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
@@ -69,17 +69,17 @@ def create_city(state_id):
         abort(404)
 
     data = request.get_json()
-    if data is None:
-        abort(400, 'Not a JSON')
+    if not data:
+        abort(400, description='Not a JSON')
     if 'name' not in data:
-        abort(400, 'Missing name')
+        abort(400, description='Missing name')
 
     """ create a city instance"""
     data['state_id'] = state_id
     city_inst = City(**data)
     city_inst.save()
 
-    return jsonify(city_inst.to_dict()), 201
+    return make_response(jsonify(city_inst.to_dict()), 201)
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'],
@@ -93,8 +93,8 @@ def update_city(city_id):
         abort(404)
 
     data = request.get_json()
-    if data is None:
-        abort(400, 'Not a JSON')
+    if not data:
+        abort(400, description='Not a JSON')
 
     """ update city with the provided info """
     for key, value in data.items():
@@ -102,4 +102,4 @@ def update_city(city_id):
             setattr(city, key, value)
     storage.save()
 
-    return jsonify(city.to_dict()), 200
+    return make_response(jsonify(city.to_dict()), 200)

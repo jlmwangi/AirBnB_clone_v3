@@ -12,7 +12,7 @@ from models.state import State
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
-                 strict_slashes='False')
+                 strict_slashes=False)
 def retrieve_cities(state_id):
     """ retrieves a list of cities of a state"""
 
@@ -29,7 +29,7 @@ def retrieve_cities(state_id):
     return jsonify(city_list)
 
 
-@app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes='False')
+@app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def retrieve_city(city_id):
     """ retrieves a city object"""
 
@@ -42,7 +42,7 @@ def retrieve_city(city_id):
 
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'],
-                 strict_slashes='False')
+                 strict_slashes=False)
 def delete_city(city_id):
     """ deletes a city object"""
 
@@ -58,7 +58,7 @@ def delete_city(city_id):
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
-                 strict_slashes='False')
+                 strict_slashes=False)
 def create_city(state_id):
     """ creates a City object """
 
@@ -83,7 +83,7 @@ def create_city(state_id):
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'],
-                 strict_slashes='False')
+                 strict_slashes=False)
 def update_city(city_id):
     """ updates a city object"""
 

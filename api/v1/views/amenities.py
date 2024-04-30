@@ -16,9 +16,9 @@ def retrive_amenities():
     amenity_list = []
     amenities = storage.all(Amenity).values()
     for amenity in amenities:
-        amenity_list.append(amenity)
+        amenity_list.append(amenity.to_dict())
 
-    return jsonify(amenity_list.to_dict())
+    return jsonify(amenity_list)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'],
@@ -45,7 +45,7 @@ def delete_amenity(amenity_id):
 
     amenity.delete()
     storage.save()
-    return jsonify(amenity.to_dict())
+    return jsonify({}), 200
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
@@ -79,7 +79,7 @@ def update_amenity(amenity_id):
     if data is None:
         abort(400, 'Not a JSON')
 
-    for key, value in data.values():
+    for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, key, value)
 

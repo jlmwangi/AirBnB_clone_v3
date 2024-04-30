@@ -4,7 +4,7 @@ creates a view of Amenity objects that handles all default RESTFul API actions
 """
 
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import abort, jsonify, make_response, request
 from models import storage
 from models.amenity import Amenity
 
@@ -55,9 +55,9 @@ def create_amenity():
     data = request.get_json()
 
     if data is None:
-        abort(400, 'Not a JSON')
+        return make_response(jsonify({'error', 'Not a JSON'}), 400)
     if 'name' not in data:
-        abort(400, 'Missing name')
+        return make_response(jsonify({'error', 'Missing name'}), 400)
 
     amenity_inst = Amenity(**data)
     amenity_inst.save()
@@ -77,7 +77,7 @@ def update_amenity(amenity_id):
 
     data = request.get_json()
     if data is None:
-        abort(400, 'Not a JSON')
+        return make_response(jsonify({'error', 'Not a JSON'}), 400)
 
     for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:

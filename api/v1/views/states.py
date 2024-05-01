@@ -2,7 +2,7 @@
 """handles all default restful api actions"""
 
 from api.v1.views import app_views
-from flask import jsonify, abort, make_response, request
+from flask import jsonify, abort, request
 from models import storage
 from models.state import State
 
@@ -35,7 +35,7 @@ def delete_state(state_id):
 
     state.delete()
     storage.save()
-    return jsonify({})
+    return (jsonify({}), 200)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -51,7 +51,7 @@ def create_state():
     new_state = State(**body)
     new_state.save()
 
-    return make_response(jsonify(new_state.to_dict()), 201)
+    return (jsonify(new_state.to_dict()), 201)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
@@ -72,4 +72,4 @@ def update_state(state_id):
 
     storage.save()
 
-    return make_response(jsonify(state.to_dict()), 200)
+    return (jsonify(state.to_dict()), 200)

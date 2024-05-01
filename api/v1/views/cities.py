@@ -5,7 +5,7 @@ that handles all default RESTFul API actions
 """
 
 from api.v1.views import app_views
-from flask import abort, jsonify, make_response, request
+from flask import abort, jsonify, request
 from models import storage
 from models.city import City
 from models.state import State
@@ -54,7 +54,7 @@ def delete_city(city_id):
     storage.delete(city)
     storage.save()
 
-    return make_response(jsonify({}), 200)
+    return (jsonify({}), 200)
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
@@ -79,7 +79,7 @@ def create_city(state_id):
     city_inst = City(**data)
     city_inst.save()
 
-    return make_response(jsonify(city_inst.to_dict()), 201)
+    return (jsonify(city_inst.to_dict()), 201)
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'],
@@ -102,4 +102,4 @@ def update_city(city_id):
             setattr(city, key, value)
     storage.save()
 
-    return make_response(jsonify(city.to_dict()), 200)
+    return (jsonify(city.to_dict()), 200)

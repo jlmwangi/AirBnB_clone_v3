@@ -42,7 +42,7 @@ def delete_user(user_id):
     user.delete()
     storage.save()
 
-    return jsonify({}, 200)
+    return (jsonify({}), 200)
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
@@ -60,7 +60,7 @@ def create_user():
     user_inst = User(**data)
     user_inst.save()
 
-    return jsonify(user_inst.to_dict(), 201)
+    return (jsonify(user_inst.to_dict()), 201)
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
@@ -80,4 +80,4 @@ def update_user(user_id):
             setattr(user, key, value)
     storage.save()
 
-    return jsonify(user.to_dict(), 200)
+    return (jsonify(user.to_dict()), 200)

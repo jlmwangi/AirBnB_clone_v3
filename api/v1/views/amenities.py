@@ -4,13 +4,13 @@ creates a view of Amenity objects that handles all default RESTFul API actions
 """
 
 from api.v1.views import app_views
-from flask import abort, jsonify, make_response, request
+from flask import abort, jsonify, request
 from models import storage
 from models.amenity import Amenity
 
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
-def retrive_amenities():
+def retrieve_amenities():
     """ retrieves all amenities"""
 
     amenity_list = []
@@ -23,7 +23,7 @@ def retrive_amenities():
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'],
                  strict_slashes=False)
-def retrive_amenity(amenity_id):
+def retrieve_amenity(amenity_id):
     """ retrieves an amenity object"""
 
     amenity = storage.get(Amenity, amenity_id)
@@ -45,7 +45,7 @@ def delete_amenity(amenity_id):
 
     amenity.delete()
     storage.save()
-    return jsonify({}, 200)
+    return (jsonify({}), 200)
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
@@ -62,7 +62,7 @@ def create_amenity():
     amenity_inst = Amenity(**data)
     amenity_inst.save()
 
-    return jsonify(amenity_inst.to_dict(), 201)
+    return (jsonify(amenity_inst.to_dict()), 201)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'],
@@ -84,4 +84,4 @@ def update_amenity(amenity_id):
             setattr(amenity, key, value)
     storage.save()
 
-    return jsonify(amenity.to_dict(), 200)
+    return (jsonify(amenity.to_dict()), 200)

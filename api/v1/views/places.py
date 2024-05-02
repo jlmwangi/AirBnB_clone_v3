@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """creates a new view for place objects"""
 
-from api.vi.views import app_views
+from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models import storage
 from models.city import City

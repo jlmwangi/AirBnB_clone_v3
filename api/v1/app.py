@@ -3,9 +3,11 @@
 
 from api.v1.views import app_views
 from flask import Flask, jsonify
+from flask_cors import CORS
 from models import storage
 
 app = Flask(__name__)
+CORS(app, origins='0.0.0.0')
 app.register_blueprint(app_views)
 
 
@@ -15,7 +17,7 @@ def tear_down(error=None):
     try:
         storage.close()
     except Exception as e:
-        print("{}".format(ei))
+        print("{}".format(e))
 
 
 @app.errorhandler(404)
